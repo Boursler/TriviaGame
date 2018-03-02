@@ -45,13 +45,13 @@ function initDisplay() {
 	emptyDivs();
 	$("h1").text("Welcome to the Trivia Game!");
 	$("#questionDiv").text("Press the trivia button to start!")
-	$("#answerOptionsDiv").html("<button> Start! </button>");
+	$("#answerOptionsDiv").html("<button id='startGame'> Start! </button>");
 }
 function showQuestion(question) {
 	emptyDivs();
 	$("#questionDiv").html("<p>" + question.questionBody + "</p>");
 	for (var i = 0; i < question.answerOptions.length; i++) {
-		$("#answerOptionsDiv").append("<button>" + question.answerOptions[i] + "</button");
+		$("#answerOptionsDiv").append("<button class='options'>" + question.answerOptions[i] + "</button");
 	}
 }
 function showAnswer(question) {
@@ -65,15 +65,22 @@ function emptyDivs() {
 	$("#questionDiv").empty();
 	$("#answerOptionsDiv").empty();
 }
-function displayTrivia() {
-	emptyDivs();
-	initGame();
-	chooseQuestion();
-	showQuestion(question);
-	showAnswer(question);
+function questionRound() {
+	showQuestion(chooseQuestion());
+}
+function answerRound() {
 
 }
-$("#testButton1").click(initDisplay);
-$("#testButton2").click(function clear() {
-	clearInterval(questionTimer);
-})
+function displayTrivia() {
+	console.log("game State is " + gameState);
+	if (gameState === 0) {
+		initGame();
+		initDisplay();
+		$("#startGame").click(questionRound);
+	}
+	if (gameState === 1) {
+		$(".options").click(answerRound);
+	}
+
+}
+$("#testButton1").click(displayTrivia);
