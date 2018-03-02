@@ -8,6 +8,7 @@ var questionTimer;
 var gameState = 0;
 var userAnswer;
 var submittedAnswers = 0;
+var correct;
 
 function Question(questionBody, answerOptions, correctAnswer) {
 	//question constructor
@@ -36,18 +37,34 @@ function chooseQuestion() {
 
 function submitAnswer() {
 	gameState = 2;
+
+	console.log("enter submit answer");
 	if (userAnswer === question.correctAnswer) {
+		correct = "Correct!";
 		correctAnswers++
 		console.log("correct answers " + correctAnswers);
+		submittedAnswers++
+		console.log("increment submit answer");
+		return correct;
 	}
-	else if (userAnswer !== question.correctAnswer) {
+	else if (question.answerOptions.includes(userAnswer) === true) {
 		incorrectAnswers++
 		console.log("incorrect Answers " + incorrectAnswers);
+		correct = "Incorrect!";
+		submittedAnswers++;
+		console.log("increment submit answer");
+		return correct;
 	}
 	else {
 		unattemptedQuestions++;
+		submittedAnswers++;
+		console.log("increment submit answer");
+		console.log("Passes " + unattemptedQuestions);
+		correct = "Pass";
+		return correct;
 	}
-	submittedAnswers++;
+
+	console.log("answers submitted " + submittedAnswers);
 }
 function endGame() {
 	if (submittedAnswers === 3) {
@@ -70,7 +87,7 @@ function showQuestion() {
 }
 function showAnswer() {
 	emptyDivs();
-	$("#questionDiv").html("<p>" + "The correct answer was " + question.correctAnswer + "</p>");
+	$("#questionDiv").html("<p>" + correct + "</p> <p>" + "The answer is " + question.correctAnswer + "</p>");
 	console.log(question.correctAnswer);
 }
 function endDisplay() {
@@ -108,12 +125,19 @@ function endGameRound() {
 }
 function displayTrivia() {
 	console.log("game State is " + gameState);
+	var timeout;
+	clearTimeout(timeout);
 	if (gameState === 0) {
 		initRound();
 		$("#startGame").click(questionRound);
 	}
 	else if (gameState === 1) {
+		timeout = setTimeout(answerRound, 5000);
 		$(".options").click(answerRound);
+		$(".options").click(function () {
+			clearTimeout(timeout);
+		});
+
 	}
 	else if (gameState === 2) {
 		if (questionArr.length > 0) {
@@ -127,7 +151,5 @@ function displayTrivia() {
 
 		$("#tryAgain").click(initRound);
 	}
-
-
 }
 $("#testButton1").click(displayTrivia);
