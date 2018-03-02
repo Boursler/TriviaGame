@@ -7,7 +7,7 @@ var questionTimer;
 //if gameInit, gameState = 0; if gameQuestion, gameState = 1; if gameAnswer, gameState = 2; if gameOver, gameState = 3
 var gameState = 0;
 var userAnswer;
-
+var submittedAnswers = 0;
 
 function Question(questionBody, answerOptions, correctAnswer) {
 	//question constructor
@@ -46,6 +46,12 @@ function submitAnswer() {
 	}
 	else {
 		unattemptedQuestions++;
+	}
+	submittedAnswers++;
+}
+function endGame() {
+	if (submittedAnswers === 3) {
+		gameState = 3;
 	}
 }
 
@@ -96,6 +102,10 @@ function answerRound() {
 	submitAnswer();
 	showAnswer();
 }
+function endGameRound() {
+	endGame();
+	endDisplay();
+}
 function displayTrivia() {
 	console.log("game State is " + gameState);
 	if (gameState === 0) {
@@ -110,7 +120,7 @@ function displayTrivia() {
 			setTimeout(questionRound, 5000);
 		}
 		else {
-			setTimeout(endDisplay, 5000);
+			setTimeout(endGameRound, 5000);
 		}
 	}
 	else {
