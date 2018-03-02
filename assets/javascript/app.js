@@ -15,12 +15,6 @@ function initGame() {
 	questionArr = [question1, question2, question3];
 }
 
-function answerTimer() {
-	questionTimer = setInterval(displayTrivia, 1000);
-	var count = 0;
-	count++;
-	console.log("timer is running " + count);
-}
 function Question(questionBody, answerOptions, correctAnswer) {
 	//question constructor
 	this.questionBody = questionBody;
@@ -31,8 +25,7 @@ function chooseQuestion() {
 	gameState = 1;
 	question = questionArr.splice(0, 1);
 	question = question[0];
-	console.log("quesntion is " + question.questionBody);
-
+	console.log("question is " + question.questionBody);
 	return question;
 }
 function submitAnswer() {
@@ -48,6 +41,12 @@ function submitAnswer() {
 	}
 }
 
+function initDisplay() {
+	emptyDivs();
+	$("h1").text("Welcome to the Trivia Game!");
+	$("#questionDiv").text("Press the trivia button to start!")
+	$("#answerOptionsDiv").html("<button> Start! </button>");
+}
 function showQuestion(question) {
 	emptyDivs();
 	$("#questionDiv").html("<p>" + question.questionBody + "</p>");
@@ -62,17 +61,19 @@ function showAnswer(question) {
 }
 function emptyDivs() {
 	console.log("empty");
+	$("h1").empty();
 	$("#questionDiv").empty();
 	$("#answerOptionsDiv").empty();
 }
 function displayTrivia() {
 	emptyDivs();
+	initGame();
 	chooseQuestion();
 	showQuestion(question);
 	showAnswer(question);
 
 }
-$("#testButton1").click(answerTimer);
+$("#testButton1").click(initDisplay);
 $("#testButton2").click(function clear() {
 	clearInterval(questionTimer);
 })
