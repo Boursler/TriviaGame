@@ -29,9 +29,10 @@ function Question(questionBody, answerOptions, correctAnswer) {
 }
 function chooseQuestion() {
 	gameState = 1;
-	question1 = new Question("Who is the main character in the Harry Potter series?", ["Draco Malfoy", "Ron Weasley", "Harry Potter"], "Harry Potter");
-	console.log("quesntion is " + question1.questionBody);
-	question = question1;
+	question = questionArr.splice(0, 1);
+	question = question[0];
+	console.log("quesntion is " + question.questionBody);
+
 	return question;
 }
 function submitAnswer() {
