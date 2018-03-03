@@ -9,7 +9,7 @@ var gameState = 0;
 var userAnswer;
 var submittedAnswers = 0;
 var correct;
-var countdownTimer = 5000;
+var countdownTimer = 10000;
 var seconds = countdownTimer / 1000;
 var timeout;
 var timer;
@@ -29,19 +29,13 @@ function initGame() {
 }
 function chooseQuestion() {
 	gameState = 1;
-
 	question = questionArr.splice(0, 1);
 	question = question[0];
-	for (var i = 0; i < questionArr.length; i++) {
-
-	}
-
 	return question;
 }
 
 function submitAnswer() {
 	gameState = 2;
-
 
 	if (userAnswer === question.correctAnswer) {
 		correct = "Correct!";
@@ -111,23 +105,29 @@ function emptyDivs() {
 	$("#countDownTimer").empty();
 }
 function initRound() {
+
 	initGame();
 	initDisplay();
+
 }
 function questionRound() {
 
 	chooseQuestion();
 	showQuestion();
+	displayTrivia();
 }
 function answerRound() {
-	userAnswer = $(this).text();
 
+	userAnswer = $(this).text();
 	submitAnswer();
 	showAnswer();
+	displayTrivia();
 }
 function endGameRound() {
+
 	endGame();
 	endDisplay();
+	displayTrivia();
 }
 function countdown() {
 	console.log("enter countdown phase");
@@ -174,4 +174,6 @@ function displayTrivia() {
 		$("#tryAgain").click(initRound);
 	}
 }
-$("#testButton1").click(displayTrivia);
+$(document).ready(function () {
+	displayTrivia();
+})
