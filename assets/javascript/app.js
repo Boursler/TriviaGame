@@ -9,6 +9,10 @@ var gameState = 0;
 var userAnswer;
 var submittedAnswers = 0;
 var correct;
+var countdownTimer = 5000;
+var seconds = countdownTimer / 1000;
+var timeout;
+var timer;
 
 function Question(questionBody, answerOptions, correctAnswer) {
 	//question constructor
@@ -29,42 +33,41 @@ function chooseQuestion() {
 	question = questionArr.splice(0, 1);
 	question = question[0];
 	for (var i = 0; i < questionArr.length; i++) {
-		console.log("question choices are " + questionArr[i].questionBody);
+
 	}
-	console.log("question is " + question.questionBody);
+
 	return question;
 }
 
 function submitAnswer() {
 	gameState = 2;
 
-	console.log("enter submit answer");
+
 	if (userAnswer === question.correctAnswer) {
 		correct = "Correct!";
 		correctAnswers++
-		console.log("correct answers " + correctAnswers);
+
 		submittedAnswers++
-		console.log("increment submit answer");
+
 		return correct;
 	}
 	else if (question.answerOptions.includes(userAnswer) === true) {
 		incorrectAnswers++
-		console.log("incorrect Answers " + incorrectAnswers);
+
 		correct = "Incorrect!";
 		submittedAnswers++;
-		console.log("increment submit answer");
+
 		return correct;
 	}
 	else {
 		unattemptedQuestions++;
 		submittedAnswers++;
-		console.log("increment submit answer");
-		console.log("Passes " + unattemptedQuestions);
+
 		correct = "Pass";
 		return correct;
 	}
 
-	console.log("answers submitted " + submittedAnswers);
+
 }
 function endGame() {
 	if (submittedAnswers === 3) {
@@ -80,6 +83,7 @@ function initDisplay() {
 }
 function showQuestion() {
 	emptyDivs();
+
 	$("#questionDiv").html("<p>" + question.questionBody + "</p>");
 	for (var i = 0; i < question.answerOptions.length; i++) {
 		$("#answerOptionsDiv").append("<button class='options'>" + question.answerOptions[i] + "</button");
@@ -88,7 +92,7 @@ function showQuestion() {
 function showAnswer() {
 	emptyDivs();
 	$("#questionDiv").html("<p>" + correct + "</p> <p>" + "The answer is " + question.correctAnswer + "</p>");
-	console.log(question.correctAnswer);
+
 }
 function endDisplay() {
 	emptyDivs();
@@ -104,18 +108,20 @@ function emptyDivs() {
 	$("h1").empty();
 	$("#questionDiv").empty();
 	$("#answerOptionsDiv").empty();
+	$("#countDownTimer").empty();
 }
 function initRound() {
 	initGame();
 	initDisplay();
 }
 function questionRound() {
+
 	chooseQuestion();
 	showQuestion();
 }
 function answerRound() {
 	userAnswer = $(this).text();
-	console.log("answer given is " + userAnswer);
+
 	submitAnswer();
 	showAnswer();
 }
@@ -123,25 +129,41 @@ function endGameRound() {
 	endGame();
 	endDisplay();
 }
+function countdown() {
+	console.log("enter countdown phase");
+	if (seconds > 0) {
+		console.log("interval is running");
+		seconds--;
+		console.log("seconds " + seconds);
+		$("#countDownTimer").text(seconds);
+	}
+	else {
+		clearInterval(timer);
+	}
+
+}
 function displayTrivia() {
 	console.log("game State is " + gameState);
-	var timeout;
 	clearTimeout(timeout);
+	clearInterval(timer);
 	if (gameState === 0) {
 		initRound();
 		$("#startGame").click(questionRound);
 	}
 	else if (gameState === 1) {
-		timeout = setTimeout(answerRound, 5000);
+		seconds = countdownTimer / 1000;
+		timeout = setTimeout(answerRound, countdownTimer);
+		timer = setInterval(countdown, 1000);
 		$(".options").click(answerRound);
 		$(".options").click(function () {
 			clearTimeout(timeout);
+			clearInterval(timer);
 		});
 
 	}
 	else if (gameState === 2) {
 		if (questionArr.length > 0) {
-			setTimeout(questionRound, 5000);
+			setTimeout(questionRound, 3000);
 		}
 		else {
 			setTimeout(endGameRound, 5000);
