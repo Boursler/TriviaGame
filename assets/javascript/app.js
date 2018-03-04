@@ -15,21 +15,23 @@ var timeout;
 var timer;
 var qustionNum;
 
-function Question(questionBody, answerOptions, correctAnswer) {
+function Question(questionBody, answerOptions, correctAnswer, correctAnswerImage) {
 	//question constructor
 	this.questionBody = questionBody;
 	this.answerOptions = answerOptions;
 	this.correctAnswer = correctAnswer;
+	this.correctAnswerImage = correctAnswerImage;
+
 }
 function initGame() {
 	gameState = 0;
-	question1 = new Question("Who wrote <em>Man's Search for Meaning?</em>", ["Viktor Frankl", "Jane Austen", "Soren Kierkegaard"], "Viktor Frankl");
-	question2 = new Question("Who wrote the phrase, 'L'enfer c'est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre");
-	question3 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance");
-	question4 = new Question("What is <em>ennui</em>?", ["boredom and weariness with the world", "excitement about a major life event", "eternal recurrence", "joy"], "boredom and weariness with the world");
-	question5 = new Question("Who wrote <em>No Exit</em>?", ["Gregor Samsa", "Friedrich Nietzsche", "Jean-Paul Sartre", "Soren Kierkegaard"], "Jean-Paul Sartre");
-	question6 = new Question("What is a major value with which existentialist writers concern themselves?", ["humility", "passive acceptance of life's ups and downs", "authenticity", "loneliness"], "authenticity");
-	question7 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa");
+	question1 = new Question("Who wrote <em>Man's Search for Meaning?</em>", ["Viktor Frankl", "Jane Austen", "Soren Kierkegaard"], "Viktor Frankl", "assets/images/viktorfranklquote.jpg");
+	question2 = new Question("Who wrote the phrase, 'L'enfer c'est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre", "assets/images/noexit.jpg");
+	question3 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely", "assets/images/eternal-yolo.png"); //taken from Analog Revolution blog, Apr 8 2014
+	question4 = new Question("What is <em>ennui</em>?", ["boredom and weariness with the world", "excitement about a major life event", "eternal recurrence", "joy"], "boredom and weariness with the world", "assets/images/rain.jpg");
+	question5 = new Question("Who wrote <em>No Exit</em>?", ["Gregor Samsa", "Friedrich Nietzsche", "Jean-Paul Sartre", "Soren Kierkegaard"], "Jean-Paul Sartre", "assets/images/jeanpaulsartre.jpg");
+	question6 = new Question("What is a major value with which existentialist writers concern themselves?", ["humility", "passive acceptance of life's ups and downs", "authenticity", "loneliness"], "authenticity", "assets/images/mask.jpg");
+	question7 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa", "assets/images/bug.jpg");
 
 	questionArr = [question1, question2, question3, question4, question5, question6, question7];
 	questionNum = questionArr.length;
@@ -78,9 +80,9 @@ function endGame() {
 
 function initDisplay() {
 	emptyDivs();
-	$("h1").text("Welcome to the Trivia Game!");
-	$("#questionDiv").text("Press the trivia button to start!")
-	$("#answerOptionsDiv").html("<button id='startGame' class='btn btn-secondary'> Start! </button>");
+
+
+	$("#answerOptionsDiv").html("<button id='startGame' class='btn btn-secondary'> Start </button>");
 }
 function showQuestion() {
 	emptyDivs();
@@ -92,7 +94,7 @@ function showQuestion() {
 }
 function showAnswer() {
 	emptyDivs();
-	$("#questionDiv").html("<p>" + correct + "</p> <p>" + "The answer is " + question.correctAnswer + "</p>");
+	$("#questionDiv").html("<p>" + correct + "</p> <p>" + "The answer is " + question.correctAnswer + "</p>" + "<img src='" + question.correctAnswerImage + "'/>");
 
 }
 function endDisplay() {
@@ -106,7 +108,7 @@ function endDisplay() {
 }
 function emptyDivs() {
 	console.log("empty");
-	$("h1").empty();
+
 	$("#questionDiv").empty();
 	$("#answerOptionsDiv").empty();
 	$("#countDownTimer").empty();
@@ -142,7 +144,7 @@ function countdown() {
 		console.log("interval is running");
 		seconds--;
 		console.log("seconds " + seconds);
-		$("#countDownTimer").text(seconds);
+		$("#countDownTimer").text("Time remaining is " + seconds + " seconds");
 	}
 	else {
 		clearInterval(timer);
@@ -159,7 +161,7 @@ function displayTrivia() {
 	}
 	else if (gameState === 1) {
 		seconds = countdownTimer / 1000;
-		$("#countDownTimer").text(seconds);
+		$("#countDownTimer").text("Time remaining is " + seconds + " seconds");
 		timeout = setTimeout(answerRound, countdownTimer);
 		timer = setInterval(countdown, 1000);
 		$(".options").click(answerRound);
@@ -171,7 +173,7 @@ function displayTrivia() {
 	}
 	else if (gameState === 2) {
 		if (questionArr.length > 0) {
-			setTimeout(questionRound, 3000);
+			setTimeout(questionRound, 10000);
 		}
 		else {
 			setTimeout(endGameRound, 5000);

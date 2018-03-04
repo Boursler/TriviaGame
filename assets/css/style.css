@@ -1,8 +1,30 @@
+*{
+	box-sizing: border-box;
+}
+
 body{
 	/* Background Image from Subtle Patterns */
 	background-image: url("../images/footer_lodyas.png");
 	color: #A9A9A9;
+
+}
+img{
+	height: 300px;
+	width: 250px;
+}
+.container{
+	height: 100vh;
+
+}
+
+#contentDiv{
+	height: 33vh;
+	vertical-align: middle;
+	margin: auto;
+	width: 66vw;
 }
 .jumbotron{
 	background-color: #2F4F4F;
+	width: 66vw;
+
 }
