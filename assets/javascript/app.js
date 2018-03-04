@@ -22,10 +22,14 @@ function Question(questionBody, answerOptions, correctAnswer) {
 }
 function initGame() {
 	gameState = 0;
-	question1 = new Question("Who is the main character in the Harry Potter series?", ["Draco Malfoy", "Roy Weasley", "Harry Potter"], "Harry Potter");
-	question2 = new Question("What color is the sky?", ["Blue", "Green", "Purple"], "Blue");
-	question3 = new Question("Why do cats meow?", ["to communicate with each other", "to talk to humans", "to entertain themselves"], "to talk to humans");
-	questionArr = [question1, question2, question3];
+	question1 = new Question("Who wrote <em>Man's Search for Meaning?</em>", ["Viktor Frankl", "Jane Austen", "Soren Kierkegaard"], "Viktor Frankl");
+	question2 = new Question("Who wrote the phrase, 'L'infer est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre");
+	question3 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa");
+	question4 = new Question("What is <em>ennui</em>?", ["boredom and weariness with the world", "excitement about a major life event", "eternal recurrence", "joy"], "boredom and weariness with the world");
+	question5 = new Question("Who wrote <em>No Exit</em>?", ["Gregor Samsa", "Friedrich Nietzsche", "Jean-Paul Sartre", "Soren Kierkegaard"], "Jean-Paul Sartre");
+	question6 = new Question("What is a major value with which existentialist writers concern themselves?", ["humility", "passive acceptance of life's ups and downs", "authenticity", "loneliness"], "authenticity");
+	question7 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance");
+	questionArr = [question1, question2, question3, question4, question5, question6, question7];
 }
 function chooseQuestion() {
 	gameState = 1;
