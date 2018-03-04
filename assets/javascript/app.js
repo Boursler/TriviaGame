@@ -156,6 +156,7 @@ function displayTrivia() {
 	}
 	else if (gameState === 1) {
 		seconds = countdownTimer / 1000;
+		$("#countDownTimer").text(seconds);
 		timeout = setTimeout(answerRound, countdownTimer);
 		timer = setInterval(countdown, 1000);
 		$(".options").click(answerRound);
