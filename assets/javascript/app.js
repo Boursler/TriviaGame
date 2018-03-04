@@ -13,6 +13,7 @@ var countdownTimer = 10000;
 var seconds = countdownTimer / 1000;
 var timeout;
 var timer;
+var qustionNum;
 
 function Question(questionBody, answerOptions, correctAnswer) {
 	//question constructor
@@ -23,13 +24,15 @@ function Question(questionBody, answerOptions, correctAnswer) {
 function initGame() {
 	gameState = 0;
 	question1 = new Question("Who wrote <em>Man's Search for Meaning?</em>", ["Viktor Frankl", "Jane Austen", "Soren Kierkegaard"], "Viktor Frankl");
-	question2 = new Question("Who wrote the phrase, 'L'infer est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre");
-	question3 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa");
+	question2 = new Question("Who wrote the phrase, 'L'enfer c'est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre");
+	question3 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance");
 	question4 = new Question("What is <em>ennui</em>?", ["boredom and weariness with the world", "excitement about a major life event", "eternal recurrence", "joy"], "boredom and weariness with the world");
 	question5 = new Question("Who wrote <em>No Exit</em>?", ["Gregor Samsa", "Friedrich Nietzsche", "Jean-Paul Sartre", "Soren Kierkegaard"], "Jean-Paul Sartre");
 	question6 = new Question("What is a major value with which existentialist writers concern themselves?", ["humility", "passive acceptance of life's ups and downs", "authenticity", "loneliness"], "authenticity");
-	question7 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely, as a result of which all decisions gain weight and importance");
+	question7 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa");
+
 	questionArr = [question1, question2, question3, question4, question5, question6, question7];
+	questionNum = questionArr.length;
 }
 function chooseQuestion() {
 	gameState = 1;
@@ -68,7 +71,7 @@ function submitAnswer() {
 
 }
 function endGame() {
-	if (submittedAnswers === 3) {
+	if (submittedAnswers === questionNum) {
 		gameState = 3;
 	}
 }
@@ -77,14 +80,14 @@ function initDisplay() {
 	emptyDivs();
 	$("h1").text("Welcome to the Trivia Game!");
 	$("#questionDiv").text("Press the trivia button to start!")
-	$("#answerOptionsDiv").html("<button id='startGame'> Start! </button>");
+	$("#answerOptionsDiv").html("<button id='startGame' class='btn btn-secondary'> Start! </button>");
 }
 function showQuestion() {
 	emptyDivs();
 
 	$("#questionDiv").html("<p>" + question.questionBody + "</p>");
 	for (var i = 0; i < question.answerOptions.length; i++) {
-		$("#answerOptionsDiv").append("<button class='options'>" + question.answerOptions[i] + "</button");
+		$("#answerOptionsDiv").append("<button class='options btn btn-secondary'>" + question.answerOptions[i] + "</button");
 	}
 }
 function showAnswer() {
@@ -98,7 +101,7 @@ function endDisplay() {
 	$("#answerOptionsDiv").append("<p> Right: " + correctAnswers + "</p>");
 	$("#answerOptionsDiv").append("<p> Wrong: " + incorrectAnswers + "</p>");
 	$("#answerOptionsDiv").append("<p>Passed: " + unattemptedQuestions + "</p>");
-	$("#answerOptionsDiv").append("<button id='tryAgain'> Try Again! </button>");
+	$("#answerOptionsDiv").append("<button id='tryAgain' class = 'btn btn-secondary'> Try Again! </button>");
 
 }
 function emptyDivs() {
