@@ -44,6 +44,7 @@ function initGame() {
 
 }
 function chooseQuestion() {
+	//remove the beginning index of questionArr and set result to be question
 	gameState = 1;
 	question = questionArr.splice(0, 1);
 	question = question[0];
@@ -52,32 +53,25 @@ function chooseQuestion() {
 
 function submitAnswer() {
 	gameState = 2;
-
+	//check if answer is correct, incorrect or is a pass and increment related counters
 	if (userAnswer === question.correctAnswer) {
 		correct = "Correct!";
 		correctAnswers++
-
 		submittedAnswers++
-
 		return correct;
 	}
 	else if (question.answerOptions.includes(userAnswer) === true) {
 		incorrectAnswers++
-
 		correct = "Incorrect!";
 		submittedAnswers++;
-
 		return correct;
 	}
 	else {
 		unattemptedQuestions++;
 		submittedAnswers++;
-
 		correct = "Pass";
 		return correct;
 	}
-
-
 }
 function endGame() {
 	if (submittedAnswers === questionNum) {
@@ -113,7 +107,6 @@ function endDisplay() {
 }
 function emptyDivs() {
 	console.log("empty");
-
 	$("#questionDiv").empty();
 	$("#answerOptionsDiv").empty();
 	$("#countDownTimer").empty();
@@ -121,27 +114,27 @@ function emptyDivs() {
 function initRound() {
 	initGame();
 	initDisplay();
-
 }
-function questionRound() {
 
+function questionRound() {
 	chooseQuestion();
 	showQuestion();
 	displayTrivia();
 }
-function answerRound() {
 
+function answerRound() {
 	userAnswer = $(this).text();
 	submitAnswer();
 	showAnswer();
 	displayTrivia();
 }
-function endGameRound() {
 
+function endGameRound() {
 	endGame();
 	endDisplay();
 	displayTrivia();
 }
+
 function countdown() {
 	console.log("enter countdown phase");
 	if (seconds > 0) {
@@ -155,29 +148,31 @@ function countdown() {
 	}
 
 }
+
 function displayTrivia() {
+	//function that checks game state and runs timers and functions appropriately
 	console.log("game State is " + gameState);
 	clearTimeout(timeout);
 	clearInterval(timer);
 	if (gameState === 0) {
 		initRound();
-
 	}
 	else if (gameState === 1) {
 		seconds = countdownTimer / 1000;
 		$("#countDownTimer").text("Time remaining is " + seconds + " seconds");
+		//set timeout function to call next round and runs a timer that will countdown
 		timeout = setTimeout(answerRound, countdownTimer);
 		timer = setInterval(countdown, 1000);
 		$(".options").click(answerRound);
 		$(".options").click(function () {
+			//timers are cleared when an answer is given
 			clearTimeout(timeout);
 			clearInterval(timer);
 		});
-
 	}
 	else if (gameState === 2) {
 		if (questionArr.length > 0) {
-			setTimeout(questionRound, 10000);
+			setTimeout(questionRound, 5000);
 		}
 		else {
 			setTimeout(endGameRound, 5000);
@@ -186,9 +181,9 @@ function displayTrivia() {
 	else {
 
 		$("#tryAgain").click(initRound);
-
 	}
 }
+
 $(document).ready(function () {
 	initRound();
 	displayTrivia();
