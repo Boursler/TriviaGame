@@ -1,19 +1,19 @@
-var correctAnswers = 0;
-var incorrectAnswers = 0;
-var unattemptedQuestions = 0;
-var question = 0;
+var correctAnswers;
+var incorrectAnswers;
+var unattemptedQuestions;
+var question;
 var questionArr = [];
 var questionTimer;
 //if gameInit, gameState = 0; if gameQuestion, gameState = 1; if gameAnswer, gameState = 2; if gameOver, gameState = 3
-var gameState = 0;
+var gameState;
 var userAnswer;
-var submittedAnswers = 0;
+var submittedAnswers;
 var correct;
 var countdownTimer = 10000;
-var seconds = countdownTimer / 1000;
+var seconds;
 var timeout;
 var timer;
-var qustionNum;
+var questionNum;
 
 function Question(questionBody, answerOptions, correctAnswer, correctAnswerImage) {
 	//question constructor
@@ -24,7 +24,14 @@ function Question(questionBody, answerOptions, correctAnswer, correctAnswerImage
 
 }
 function initGame() {
+	//set initial game state and declare questions
 	gameState = 0;
+	submittedAnswers = 0;
+	correct = 0;
+	question = 0;
+	unattemptedQuestions = 0;
+	incorrectAnswers = 0;
+	correctAnswers = 0;
 	question1 = new Question("Who wrote <em>Man's Search for Meaning?</em>", ["Viktor Frankl", "Jane Austen", "Soren Kierkegaard"], "Viktor Frankl", "assets/images/viktorfranklquote.jpg");
 	question2 = new Question("Who wrote the phrase, 'L'enfer c'est les autres?'", ["Jean-Paul Sartre", "Soren Kierkegaard", "Albert Camus"], "Jean-Paul Sartre", "assets/images/noexit.jpg");
 	question3 = new Question("What is eternal recurrence?", ["the theory that given infinite time and finite events, events will recur infinitely", "life's decisions are meaningless because life is only lived one time", "time stretches into infinity at stoplights"], "the theory that given infinite time and finite events, events will recur infinitely", "assets/images/eternal-yolo.png"); //taken from Analog Revolution blog, Apr 8 2014
@@ -32,9 +39,9 @@ function initGame() {
 	question5 = new Question("Who wrote <em>No Exit</em>?", ["Gregor Samsa", "Friedrich Nietzsche", "Jean-Paul Sartre", "Soren Kierkegaard"], "Jean-Paul Sartre", "assets/images/jeanpaulsartre.jpg");
 	question6 = new Question("What is a major value with which existentialist writers concern themselves?", ["humility", "passive acceptance of life's ups and downs", "authenticity", "loneliness"], "authenticity", "assets/images/mask.jpg");
 	question7 = new Question("Who woke up as a cockroach?", ["the brothers Karamazov", "Gregor Samsa", "Meursault", "Rodion Romanovich Raskolnikov"], "Gregor Samsa", "assets/images/bug.jpg");
-
 	questionArr = [question1, question2, question3, question4, question5, question6, question7];
 	questionNum = questionArr.length;
+
 }
 function chooseQuestion() {
 	gameState = 1;
@@ -80,13 +87,11 @@ function endGame() {
 
 function initDisplay() {
 	emptyDivs();
-
-
 	$("#answerOptionsDiv").html("<button id='startGame' class='btn btn-secondary'> Start </button>");
+	$("#startGame").click(questionRound);
 }
 function showQuestion() {
 	emptyDivs();
-
 	$("#questionDiv").html("<p>" + question.questionBody + "</p>");
 	for (var i = 0; i < question.answerOptions.length; i++) {
 		$("#answerOptionsDiv").append("<button class='options btn btn-secondary'>" + question.answerOptions[i] + "</button");
@@ -114,7 +119,6 @@ function emptyDivs() {
 	$("#countDownTimer").empty();
 }
 function initRound() {
-
 	initGame();
 	initDisplay();
 
@@ -157,7 +161,7 @@ function displayTrivia() {
 	clearInterval(timer);
 	if (gameState === 0) {
 		initRound();
-		$("#startGame").click(questionRound);
+
 	}
 	else if (gameState === 1) {
 		seconds = countdownTimer / 1000;
@@ -182,8 +186,10 @@ function displayTrivia() {
 	else {
 
 		$("#tryAgain").click(initRound);
+
 	}
 }
 $(document).ready(function () {
+	initRound();
 	displayTrivia();
 })
